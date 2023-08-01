@@ -1,4 +1,4 @@
-function compareSheets() {
+function compareAndReplace() {
     const fileSheet1 = document.getElementById('fileSheet1').files[0];
     const fileSheet2 = document.getElementById('fileSheet2').files[0];
 
@@ -25,15 +25,15 @@ function compareSheets() {
             const cellSheet2 = sheet2[XLSX.utils.encode_cell({ r: R, c: 0 })];
 
             if (cellSheet1 && cellSheet2 && cellSheet1.v === cellSheet2.v) {
-                const cellBSheet1 = sheet1[XLSX.utils.encode_cell({ r: R, c: 1 })];
-                const cellCSheet1 = sheet1[XLSX.utils.encode_cell({ r: R, c: 2 })];
-                sheet2[XLSX.utils.encode_cell({ r: R, c: 1 })].v = cellBSheet1.v;
-                sheet2[XLSX.utils.encode_cell({ r: R, c: 2 })].v = cellCSheet1.v;
+                const cellBSheet2 = sheet2[XLSX.utils.encode_cell({ r: R, c: 1 })];
+                const cellCSheet2 = sheet2[XLSX.utils.encode_cell({ r: R, c: 2 })];
+                sheet1[XLSX.utils.encode_cell({ r: R, c: 1 })] = cellBSheet2;
+                sheet1[XLSX.utils.encode_cell({ r: R, c: 2 })] = cellCSheet2;
             }
         }
 
         const workbookOutput = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbookOutput, sheet2, 'Sheet1');
+        XLSX.utils.book_append_sheet(workbookOutput, sheet1, 'Sheet1');
         XLSX.writeFile(workbookOutput, 'output.xlsx');
         alert('Comparison and replacement completed! The output is saved as "output.xlsx".');
     };
